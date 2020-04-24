@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/ant811/node-with-react-fullstack/issues"
   },
-  "homepage": "https://github.com/ant811/node-with-react-fullstack#readme"
+  "homepage": "https://github.com/ant811/node-with-react-fullstack#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
