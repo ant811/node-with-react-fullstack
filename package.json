@@ -4,8 +4,8 @@
   "description": "> This JavaScript course was created by [Stephen Grider](https://github.com/StephenGrider) for Udemy.   > Sign up at [Node with React: Fullstack Web Development](https://www.udemy.com/course/node-with-react-fullstack-web-development/).",
   "main": "index.js",
   "engines": {
-    "node": "12.6.2",
-    "npm": "6.14.4"
+    "node": "11.6.0",
+    "npm": "6.5.0"
   },
   "scripts": {
     "start": "node server/index.js"
