@@ -64,3 +64,30 @@ This repository tracks my progress and lessons learned on the Udemy course Node 
 - Command to push code to Heroku repo - `git push heroku master`
 - Troubleshoot with `heroku logs` terminal command
 - Open app inside the browser with `heroku open` terminal command
+
+### **Section 3: Authentication with Google OAuth**
+
+**Completed:** 04/24/2020
+
+**Lessons Learned / Notes:**
+
+- OAuth very common, standalone email/password account logins are becoming legacy
+- Google auth response comes with parameter `code=145`, which we will use to request identifying info on the user, and set userId in a cookie
+- We will use Passport.js library to help with Google OAuth flow
+- Two common complaints about Passport:
+  - Automates some, but _not all_, of the OAuth flow
+  - Confusion around how the library is structured
+- Passport makes use of two separate libraries:
+  - passport - General helpers for handling auth in Express apps
+  - passport strategy - Helpers for authenticating with one very specific method (E.g., email/password, Google, Facebook, etc.) Need one per auth method.
+- clientId - public token, fine to share with the public
+- client secret - do _NOT_ share!
+- Our GoogleStrategy instance requires three key/values in the first argument object:
+  - Both Google auth keys, and
+  - The name of the route that the user will be sent to after they grant permission to our application, the value of `callbackURL`
+- Lesson 27 - Resolved common Google OAuth error: `Error 400: redirect_uri_mismatch`
+- Routes:
+  - `app.get('/auth/google, ...'` - authenticates
+  - `app.get('/auth/google/callback, ...'` - exchange code for user profile info
+- Access token - when confirmed, can be used to take action in the user's profile (E.g., updating info), although we won't be doing that with our app
+- `profile` argument contains the identifying info that we care about
