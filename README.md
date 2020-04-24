@@ -40,23 +40,27 @@ This repository tracks my progress and lessons learned on the Udemy course Node 
 
 **Lessons Learned / Notes:**
 
-- Express API inbetween our React app and our MongoDB.
+- Express API is between our React app and our MongoDB.
 - React App and Express server will communicate exclusively through HTTP (ajax) requests
 - Difference between using Express and Node:
   - Node:
     - JavaScript runtime used to execute code outside of the browser
     - Traditionally, JavaScript has always been executed inside of the browser
   - Express:
-    - Library that runs in the Node runtime.
+    - A library that runs in the Node runtime.
     - Has helpers to make dealing with HTTP traffic easier
     - Everything in this library, we could, though won't, write from scratch using Node
-- Node.js does not support ES2015 modules (thus, must import modules into file via `require` instead of `import`). Must use these _common JS modules_ on server
-- In route handler callbacks, `req` represents incoming request, `res` represents outgoing response
-- Deployment vias heroku
+- Node.js does not support ES2015 modules (thus, must import modules into a file via `require` instead of `import`). Must use these _common JS modules_ on server
+- In route handler callbacks, `req` represents incoming request, `res` represents the outgoing response
+- Deployment via Heroku
 - | Deployment checklist     |                                                                                                                   |
   | ------------------------ | ----------------------------------------------------------------------------------------------------------------- |
   | Dynamic port binding     | Heroku tells us which port our app will use, so we need to make sure that we listen to the port that they provide |
-  | Specify node environment | We want to use a specific version of node.js, so we need to tell heroku which version we want                     |
+  | Specify node environment | We want to use a specific version of node.js, so we need to tell Heroku which version we want                     |
   | Specify start script     | Instruct Heroku what command to run to start our server running                                                   |
   | Create `.gitignore` file | We don't want to include dependencies, Heroku will do that for us                                                 |
 - Heroku auto-injects environmental variables
+- Lecture 15 - Heroku deployment (NOTE: I am pushing code to my ow repo and my Heroku app's remote)
+- Command to push code to Heroku repo - `git push heroku master`
+- Troubleshoot with `heroku logs` terminal command
+- Open app inside the browser with `heroku open` terminal command
