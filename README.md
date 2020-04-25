@@ -149,3 +149,15 @@ This repository tracks my progress and lessons learned on the Udemy course Node 
     - With `cookie-session`, the cookie _is_ the session
     - A cookie has limited storage capacity - 4 kilobytes, for our app, we are only storing user's id in the cookie, so this is fine
     - When using `express-session`, additional config. is required, such as setting us session store
+
+### **Section 5: Dev vs Prod Environments**
+
+**Completed:** 04/25/2020
+
+**Lessons Learned / Notes:**
+
+- We will have two different sets of keys, one for Dev, another for Production
+- We can store Prod keys remotely on Heroku servers
+- Also, having two sets us keys allows us to have two different Mongo databases
+- Heroku is already able to access prod env library
+- [Heroku env docs](https://devcenter.heroku.com/articles/config-vars)
