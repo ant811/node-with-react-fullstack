@@ -91,3 +91,61 @@ This repository tracks my progress and lessons learned on the Udemy course Node 
   - `app.get('/auth/google/callback, ...'` - exchange code for user profile info
 - Access token - when confirmed, can be used to take action in the user's profile (E.g., updating info), although we won't be doing that with our app
 - `profile` argument contains the identifying info that we care about
+
+### **Section 4: Adding MongoDB**
+
+**Completed:** 04/25/2020
+
+**Lessons Learned / Notes:**
+
+- How we are organizing our Express server:
+  - config folder
+    - Protected API keys and settings
+  - routes folder
+    - All route handlers, grouped by purpose
+    - One general file for each general set or group of routes
+  - services folder
+    - Helper modules and business logic
+    - Helps configure our server to work the way we expect
+    - Where we will put our Passport configuration (as Passport is a _service_ to our application)
+  - index.js file
+    - Helper modules and business logic
+- Since we don't need to pull any code out of our passport.js file, we only need to `require` it in index.js with `require('./services/passport')`, and nothing needs to be exported from passport.js - We just want to make sure that the code is executed.
+- Lecture 32 - Why/How authenticate?
+  - We communicate between the browser and our Express server by HTTP requests
+  - HTTP is stateless - between any two given requests that we make, HTTP inherently has no way to identify or share info between two separate requests. Follow-up requests are _not_ accepted without validation
+  - Cookie/token (more on this later) contains unique, identifying information to streamline follow-up, post-authentication HTTP requests
+  - After authentication, the server returns token, validating login, unique to user. Follow-up requests will include token to prove that the user is the same
+  - We cannot rely on raw HTTP to handle this authentication
+  - We will use cookie-based authentication
+    - The server will send a request with a set-cookie property inside the header, stripped off and then stored by the browser
+  - Additional requests from the browser will include this property
+- In OAuth flow, after user signs in, we will pick some very consistent piece of information to uniquely identify the user between logins (in vanilla password/email flow, the email/password are those unique identifiers)
+  - We will use the user's id (since email addresses can change, or people may forget password/lose access to email, the email address is not necessarily the safest unique identifier)
+- MongoDB basics:
+  - We will use mongoose.js library to make Mongo easier to work with
+  - Mongo internally stores records into collections
+  - Each record in a collection is essential JSON (plain JavaScript object)
+  - The defining characteristic of Mongos is that it is schema-less, meaning that inside a collection, the records can all have a different set of properties
+  - With Mongoose, we use a Model class, which represents an entire MongoDB collection
+  - With Mongoose, we also use Model instances, which are JavaScript objects that represent a single record inside of a collection
+- Lecture 40 - Sometimes, in a testing environment, Mongoose throws errors due to multoi[le use of `require` statement, when Model files get 'required' into other files multiple times
+- Error `MissingSchemaError: Schema hasn't been registered for model "users".` appears due to the order of the require statements in index.js, we need to load user our model from User.js _before_ we try to use it services/passport.js
+- Note - Database queries are asynchronous. Mongo queries return a promise
+- Invoke `done` callback in passport after querying the database
+- Create a token/cookie with function `serializedUser`
+- For a user that has already visited, and thus already has a token, we will take uniquely identifying info from token/cookie and pass into function `deserializedUser` to turn back into a user model
+- In `serializedUser`, we will use the MongoDB record's unique id, NOT the Google user id - this is better practice, consider that users can sign using something other than Google
+- `req.logout()` - Passport automatically attaches this method to the req object
+- Optional Deep Dive (Lecture 49) notes:
+  - All `app.use` calls in index.js are wiring up some kind of middleware
+  - Middleware - small functions that can be used to modify incoming requests to our app before they are sent off to the route handlers
+  - You can wire up middleware to only be used for certain route handlers
+  - How is cookieSession middleware working, and how is it relates to passport:
+    - `req.session` contains data that passport is attempting to store inside of the cookie
+    - Express.js docs recommend using both `cookie-session` and `express-session`
+    - Difference between two different session libraries is how unique id'ing data is stored inside of the cookie
+    - With `express-session`, a _reference_ to the session is stored
+    - With `cookie-session`, the cookie _is_ the session
+    - A cookie has limited storage capacity - 4 kilobytes, for our app, we are only storing user's id in the cookie, so this is fine
+    - When using `express-session`, additional config. is required, such as setting us session store
