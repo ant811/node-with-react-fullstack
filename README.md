@@ -161,3 +161,8 @@ This repository tracks my progress and lessons learned on the Udemy course Node 
 - Also, having two sets us keys allows us to have two different Mongo databases
 - Heroku is already able to access prod env library
 - [Heroku env docs](https://devcenter.heroku.com/articles/config-vars)
+- Lecture 56 - Heroku proxy issues:
+  - Re-directing to http://...../auth/google/callback instead of https://...../auth/google/callback
+  - Our GoogleStrategy is causing this error b/c we provided a relative path
+  - Issue is that requests pass through Heroku proxy, which by default, shouldn't be trusted (thus https becomes http)
+    - To fix, add `proxy: true` to GoogleStrategy config object
