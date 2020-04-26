@@ -166,3 +166,28 @@ This repository tracks my progress and lessons learned on the Udemy course Node 
   - Our GoogleStrategy is causing this error b/c we provided a relative path
   - The issue is that requests pass through Heroku proxy, which by default, shouldn't be trusted (thus https becomes http)
     - To fix, add `proxy: true` to GoogleStrategy config object
+
+### **Section 6: Moving to the Client Side**
+
+**Completed:** 04/26/2020
+
+**Lessons Learned / Notes:**
+
+- Create react app with `npx create-react-app [name of app]`
+- We will have a separate server for our front end (React server)(Dev only!)
+- Our Express server is needed to handle HTTP requests and query the database. _Only_ concerned with generating JSON data
+- Our React server bundles up our component files (using babel and webpack), provides bundled js file that is loaded into the browser
+- We could use a single Express server to handle everything
+- However, we will be using two servers to take advantage of create-react-app, very easy way to set up frontend project, comes with a lot of built-in configuration
+- Instead of opening two terminal windows to start each server, we will use a package called Concurrently
+- Lecture 62 (mind update in Lecture 61) - setting up proxy server default so that relative re-directs work - Our client-server now works nicely with our backend server
+- Proxy is included and built into our create-react-app, forwards requests from the browser to our node/express API
+- Everything, though, is different when the app is in Production
+  - create-react-app creates an optimized production build (`npm run build`)
+  - Then, our Express server can easily serve up everything from build folder
+  - Proxy set-up is really only for dev environment because create-react-app server doesn't even exist inside of production
+- Optional Lecture 64: Why this Architecture?
+  - Cookies remain included when the browser reads from port 3000, but the browser will prevent cookies when the browser tries to load requests to port 5000, the magic of our proxy!
+  - No CORS issues!
+    - Cross-Origin Resource Sharing
+    - Browser security feature to prevent requests to a different domain, the browser assumes malice
