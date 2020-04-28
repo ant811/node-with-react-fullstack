@@ -191,3 +191,42 @@ This repository tracks my progress and lessons learned on the Udemy course Node 
   - No CORS issues!
     - Cross-Origin Resource Sharing
     - Browser security feature to prevent requests to a different domain, the browser assumes malice
+
+### **Section 7: Developing the Client Side**
+
+**Completed:** 04/28/2020
+
+**Lessons Learned / Notes:**
+
+- Advice - When possible, ONLY work on any given side of the app at a time (front end, back end), working on both at the same time can cause messy code
+- Main index.js file - Data layer control (Redux)
+- App.js - React Router / rendering layer
+- Redux:
+  - Provider (from react-redux) is a component that makes the store accessible to every component in the app
+  - One Reducer per "piece of state"
+  - React component call an --> Action Creator, which returns an --> Action, sent to --> Reducers, updates state in --> Store
+  - _REMINDER:_ When initializing store, pass in 'dummy reducer' as the first argument, else the app will crash E.g., `() => []`
+  - NOTE: Names of keys in `combineReducers` are names of states, so be thoughtful and mindful of naming state `auth: authReducer`
+- More on why we care of authentication:
+  - Header will change when the user is logged in
+  - Auth user gains access to member's only components
+- NOTE: BroswerRouter can accept _one_ child component at most (initial set up, Routes are all contained within one `<div>`
+- 3rd part library used for basic styling [Materialize CSS](https://materializecss.com/) - NOTE: Partial compatibility with React
+  - What not use Material U.I.?
+    - It might be a 'better' library, but it is harder to override default stylings. It used JavaScript-based styling instead of CSS based styling
+- Webpack
+  - Create-react-app came with Webpack, a module loader, splits out (typically) one output file from many different files
+  - Handles more than just JavaScript
+  - Sometimes requires loaders for other types of files
+- Materialize assumes that there is a root div with class 'container' (this fixes spacing issue)
+- Redux-thunk allows us to break the rule that Action Creators must immediately return an action (allows async code), gives us access to the behind-the-scenes dispatch function
+  - redux-thunk inspects every value returned from an action-creator - if action creator returns a function, then redux-thunk envokes function and passes dispatch in as an argument
+- Connect function from react-redux allows react to call action creators
+- Best practice - set up three different return cases for authReducer, provides a better user experience, ONLY accurate content shown:
+  - null, if auth still pending
+  - Not logged in
+  - Logged in
+- authRoutes.js: GET request to `'/auth/google/callback'` needs additional handling directive after authentication, disposition req/res
+- Redirect on logout: We will do a full page refresh. Also, we need to update cookie session/token, as redirect user to the landing page
+- React router Link tags - navigate to a different route, different components rendered
+- Anchor tag - traditional reroute, refreshes the whole page, gets different HTML document
