@@ -290,4 +290,6 @@ This repository tracks my progress and lessons learned on the Udemy course Node 
     - Outside scope of course, recommend circle.ci to start
     - Most common in real world
 - [Heroku Node.js support](https://devcenter.heroku.com/articles/nodejs-support) - Heroku will build assets, then proceed to deploy everything
--
+- REMINDER:
+  - To check for heroku errors, enter terminal command `heroku logs`
+  - To open app on heroku, enter terminal command `heroku open`
