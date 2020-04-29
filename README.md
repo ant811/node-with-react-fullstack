@@ -274,12 +274,12 @@ This repository tracks my progress and lessons learned on the Udemy course Node 
 
 **Lessons Learned / Notes:**
 
-- In Production our Express server needs respond with all relevent assets (client bundle) as create-react-app layer does not exist in Production
+- In Production, our Express server needs to respond with all relevant assets (client bundle) as create-react-app layer does not exist in Production
 - `npm run build` builds optimized Production version of assets inside the client side of our project
-- Note that some of our routes are specifically handled in routes folder on server, and other routes are handled by react-router-dom on front-end
-- Express server needs to know when to pass along route request to assests (I.e., js bundle, html main file)
+- Note that some of our routes are specifically handled in routes folder on the server, and other routes are handled by react-router-dom on front-end
+- The Express server needs to know when to pass along route request to assets (I.e., js bundle, HTML main file)
   - BIG different between:
-    - Serving up main assets (index.html file, js bundle file on client), and
+    - Serving up main assets (index.html file, js bundle file on the client), and
     - react-router routes for page rendering
 - By convention, we don't commit our builds. Note that create-react-app's .gitignore file ignores build folder
   - Use Heroku to build client assets?
@@ -287,9 +287,10 @@ This repository tracks my progress and lessons learned on the Udemy course Node 
     - We will go with this option
   - Push to CI (continuous integration), third party server
     - Run tests, then build, commit, deploy!
-    - Outside scope of course, recommend circle.ci to start
-    - Most common in real world
+    - Outside scope of this course, recommend circle.ci to start
+    - Most common in the real world env
 - [Heroku Node.js support](https://devcenter.heroku.com/articles/nodejs-support) - Heroku will build assets, then proceed to deploy everything
 - REMINDER:
-  - To check for heroku errors, enter terminal command `heroku logs`
-  - To open app on heroku, enter terminal command `heroku open`
+  - To check for Heroku errors, enter terminal command `heroku logs`
+  - To open the app on Heroku, enter terminal command `heroku open`
+- Only once a user is inside an HTML document, with js docs loaded up, do any react-router rules take effect
