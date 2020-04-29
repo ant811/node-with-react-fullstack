@@ -267,3 +267,27 @@ This repository tracks my progress and lessons learned on the Udemy course Node 
   - Passport looks at cookie, sees user id, assigns user model to request
 - Pull auth requirement into a single location, so we can validate auth in specific routes
 - You can pass in any number of middlewares as arguments to Express API request, the only rule is that res must be handled
+
+### **Section 9: Back-End to Front-Ent Routing in Production**
+
+**Completed:** 04/29/2020
+
+**Lessons Learned / Notes:**
+
+- In Production our Express server needs respond with all relevent assets (client bundle) as create-react-app layer does not exist in Production
+- `npm run build` builds optimized Production version of assets inside the client side of our project
+- Note that some of our routes are specifically handled in routes folder on server, and other routes are handled by react-router-dom on front-end
+- Express server needs to know when to pass along route request to assests (I.e., js bundle, html main file)
+  - BIG different between:
+    - Serving up main assets (index.html file, js bundle file on client), and
+    - react-router routes for page rendering
+- By convention, we don't commit our builds. Note that create-react-app's .gitignore file ignores build folder
+  - Use Heroku to build client assets?
+    - Software engineers want to avoid installing ALL (I.e., all dev) dependencies in production env
+    - We will go with this option
+  - Push to CI (continuous integration), third party server
+    - Run tests, then build, commit, deploy!
+    - Outside scope of course, recommend circle.ci to start
+    - Most common in real world
+- [Heroku Node.js support](https://devcenter.heroku.com/articles/nodejs-support) - Heroku will build assets, then proceed to deploy everything
+-
