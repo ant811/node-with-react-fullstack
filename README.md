@@ -230,3 +230,40 @@ This repository tracks my progress and lessons learned on the Udemy course Node 
 - Redirect on logout: We will do a full page refresh. Also, we need to update cookie session/token, as redirect user to the landing page
 - React router Link tags - navigate to a different route, different components rendered
 - Anchor tag - traditional reroute, refreshes the whole page, gets different HTML document
+
+### **Section 8: Handling Payments**
+
+**Completed:** 04/29/2020
+
+**Lessons Learned / Notes:**
+
+- Rules of Billing
+  - We are bad at security:
+    - Never accept raw credit card numbers
+    - Never store credit card numbers
+    - Always use an outside payment processor
+  - Billing is hard!
+    - Possible to avoid monthly payments/multiple plans? Monthly billing is really difficult, our app will function with credits. Plenty of third-party apps help with monthly payments, but none have a free tier
+    - Fraud and chargebacks are a pain.
+- We will use [Stripe](https://stripe.com/) to process payments
+- Initial setup of account with Stripe contains 'test' setup, where you can provide fake credit card detail for your app's development
+- Stripe API publishable key will be handled differently, as we will use it within the front end, won't be stored in the same place as our other keys
+- [react-stripe-checkout](https://github.com/azmenak/react-stripe-checkout) works nicely with React, as plain checkout.js is not optimized for React
+- Front-end key only wants Stripe publishable key, Backend wants the publishable and secret key
+- Lecture 100 - deep dive on using config keys differently on the front end:
+  - The backend uses common JS modules (require statements), can be used with logic to determine which get exported.
+  - The frontend uses ES2015 modules (export, import), which cannot have a layer of logic to determine what gets exported
+  - Also, the client (front end) files must be visible as they are served up to browser, thus we cannot simply use the same config file from the backend
+- Create-react-app has great build-in support for using API keys on frontend - build in env variable setup
+- REMINDER - Mac sees files beginning with `.` as invisible, thus in finder, you won’t see our .env files
+- StripeCheckout defaults to USA dollar
+- Fake credit card:
+  - 4242 4242 4242 4242
+  - any future expiry, any CVC
+- We will use [Stripe Node library](https://www.npmjs.com/package/stripe) on our Express server to help with handling token in billingRoutes.js
+- BIG 'gotcha' - when you make post requests to an Express server, Express does not auto-parse the request payload - we'll need `body-parser` middleware
+- LECTURE 112/113: NOTE - Regarding billingRoutes.js, passport.js auto-assigns `req.user` a value, it is a reference to our user model. This is _not_ due to Express or body-parser:
+  - `req.user` is { credits: 0, \_id: 5ea48363d75a124f288ec01e, googleId: '108841067892690222239',\_\_v: 0 }
+  - Passport looks at cookie, sees user id, assigns user model to request
+- Pull auth requirement into a single location, so we can validate auth in specific routes
+- You can pass in any number of middlewares as arguments to Express API request, the only rule is that res must be handled
