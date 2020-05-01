@@ -294,3 +294,33 @@ This repository tracks my progress and lessons learned on the Udemy course Node 
   - To check for Heroku errors, enter terminal command `heroku logs`
   - To open the app on Heroku, enter terminal command `heroku open`
 - Only once a user is inside an HTML document, with js docs loaded up, do any react-router rules take effect
+
+### **Section 10: Mongoose for Survey Creation**
+
+**Completed:** 04/30/2020
+
+**Lessons Learned / Notes:**
+
+- Record user response to email survey with webhooks
+- Surveys will need their own Mongoose model, which will also contain some reference to the user who created the survey
+- In recipients property of the survey model, we are going to embed a _sub-document collection_, to not only record the recipient but also whether or not they voted (this will prevent duplicate votes)
+  - Every recipient object will have two properties: 1) email, 2) clicked
+- Mongo record has a 4MB limit, thus we don't want to store survey detail under User record. This is also why we are setting up a sub-document collection for recipients, else we put space limits on a survey's recipients (200k is a lot, but still, it is a limitation)
+- Recipient schema - rather than registering schema with mongoose, we will export it, and import it into Survey.js
+- In survey route check for:
+  - User is logged in (we already made middleware for this)
+  - User has credits (we'll make new middleware for this)
+- Lecture 132
+  - Wisdom of starting on the backend before designing frontend, setting up routes before writing how to handle frontend user input
+  - REMINDER - In our survey route, be careful not to require in mongoose model as this can cause testing errors
+- Survey route handler will also send emails
+- We don't want one HTTP request w/ mailer object per recipient, this won't scale well. We want to do a batch operation w/ one mailer object/network request
+- We cannot put any identifying token in the emails because all recipients will receive the same email, but we'll need some mechanism to uniquely identify users
+- We'll be using [Sendgrid](https://sendgrid.com/)
+  - For each recipient email, Sengrid replaces links inside the email with customizable links
+  - This process is a _webhook_, where an outside API is facilitating some process, then gives the app a callback with notice that action has been performed
+- So...much...Sendgrid configuration...
+- How to test email sending - can't use Postman as our app requires authentication
+  - Lecture 146: Access Axios from the global window object, manually make POST requests from within the console
+    const survey = { title: 'my title', subject: 'Give us Feedback!', recipients: 'bonfilio.tony@gmail.com', body: 'We would love to hear if you enjoyed our services'}
+    axios.post('/api/surveys', survey);
