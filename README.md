@@ -324,3 +324,42 @@ This repository tracks my progress and lessons learned on the Udemy course Node 
   - Lecture 146: Access Axios from the global window object, manually make POST requests from within the console
     const survey = { title: 'my title', subject: 'Give us Feedback!', recipients: 'bonfilio.tony@gmail.com', body: 'We would love to hear if you enjoyed our services'}
     axios.post('/api/surveys', survey);
+
+### **Section 11: Back to the Client!**
+
+**Completed:** 05/01/2020
+
+**Lessons Learned / Notes:**
+
+- [Materialize CSS](https://materializecss.com/) - more frontend work
+  - Icons with Materialize: We need to add a link tag to index.html
+- Redux-form - comes built-in with action creators and reducers to handle storing data to redux store. NOTE: react-final-form is now recommended instead of redux-form [react-final-form](https://github.com/final-form/react-final-form#-react-final-form)
+- reduxForm component nearly identical to react-redux connect component, used to connect with redux store
+- Field component - used wherever a traditional HTML form tag would be used (Text, text area, checkboxes, etc.), a 'swiss army knife'
+- reduxForm hands over many helpful props to forms (E.g., handleSubmit)
+- validate argument in reduxForm config - additional functionality from redux-form, all values of form auto-passed in
+- Validation - errors appear in meta object
+- Validate emails - function lives in util folder
+  - [Email Regex](https://emailregex.com/) for email validation
+- Toggling visibility - How to determine whether to show SurveyForm or SurveyFormReview?
+  - Separate route?
+    - easy setup, clear for other engineers
+    - downside - what if somehow the user goes straight to the /new route? We'd need extra code to kick off user
+  - Redux?
+    - update state in Redux store, serves as a flag (action creator, reducer, all that just to decide whether the user should progress)
+    - very valid solution...but a lot of extra code to get it to work
+  - Component State w/ React?
+    - we will do this, add state to SurveyNew component, piece of state will determine which component to show
+    - we can def use Redux state and React state in the same app
+- Redux for state or React Component for the state, when to use one or the other?
+  - Any reason to think that other features or components will need access to a certain state? In our case, only SurveyNew component really cares whether or not the user is ready to progress, no other feature really needs this piece of state
+  - If the state needs to be shared amongst many features, then Redux makes more sense
+- Reminder: create-react-app has babel plugin that allows simplified state declaration in class components: `state = { formReview: false };`
+- We will need to persist the form data - FormReview needs it, and it is better to store in Redux for easy retrieval
+- Lecture 176 - Dumping form values when the user directs away from the route and another component is mounted
+  - in SurveyNew - add redux-form helper, pass in name of the form in the config, then `destroyOnUnmount` is auto-invoked when the form is unmounted, but toggling between SurveyFormReview and SurveyForm is still fine because SurveyNew is not being unmounted
+- After submitting, we want to do a programmatic re-direct (auto-directs after sending email)
+  - It's from within our action-creator that we want to handle our navigation
+  - We will teach our Component SurveyFormReview about react-router, which can then pass on a directive to the action-creator
+  - `withRouter` helper is provided by the react-router-dom library
+  - we can access the `history` object thanks to `withRouter`
