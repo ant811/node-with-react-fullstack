@@ -363,3 +363,46 @@ This repository tracks my progress and lessons learned on the Udemy course Node 
   - We will teach our Component SurveyFormReview about react-router, which can then pass on a directive to the action-creator
   - `withRouter` helper is provided by the react-router-dom library
   - we can access the `history` object thanks to `withRouter`
+
+### **Section 12: Handling Webhook Data**
+
+**Completed:** 05/03/2020
+
+**Lessons Learned / Notes:**
+
+- Webhook in our application:
+  - User clicks on the link
+  - Sendgrid records click
+  - Sendgrid waits a bit
+  - Sendgrid makes a POST request to our server with data about all the clicks in the last 30 seconds or so
+- Sendgrid doesn't immediately make requests to our API, these come in batches
+- Webhooks will work differently in production vs. dev environment
+  - In Production:
+    - Sendgrid makes a POST request to our server with data about all of the clicks in the last 30 seconds or so
+    - POST [domain]/surveys/webhooks
+    - We process a list of clicks on the API
+    - What makes this easy in prod is that requests are sent to the deployed server - no issues with making POST requests to a deployed server
+  - In Development:
+    - Can't go to our localhost:5000 - Sendgrid cannot reach out to our laptop
+    - We will use a package called Ngrok
+    - run code `npx ngrok http 5000` in the terminal, produces an eight-hour forwarding address. Keep the terminal window open, re-run script and get a new address after 8 hours
+    - webhook full address: `https://171c9dbe.ngrok.io/api/surveys/webhooks`
+    - Post-deployment - we'll need to update the webhook address, we can only have one!
+- Since response object from email survey (via webhook) contains a lot of data that we don't necessarily want (E.g., duplicate yes/no responses, non-click events, click events to different routes), we'll need to sift through response object
+- Lodash - compact - removes elements that are undefined
+- Lecture 195 - Bad Mongoose query
+  - Requesting, updating, and persisting everything in the survey model - what if the survey has thousands of recipients - do we really want to received and send off an object with all recipients?
+  - We always want to minimize the amount of data that we are pulling out from our database
+  - Write a clever query that finds and updates the record in the same query, all within Mongo, without sending, returning, sending, returning to/from all our Express server - everything is handled within Mongo
+  - Mongo operator `$inc`:
+    - logic inside of a query
+    - `$inc: { [choice]: 1}` - choice evaluates to yes or no, and gets incremented by 1
+    - `$set: { 'recipients.$.responded:' : true}` - \$ refers to the found recipient record in initial query
+- Mongoose query tips:
+  - Google search exactly what you want to do:
+    - 'mongoose js update document in subdocument collection' takes you straight to good StackOverflow thread
+  - run mongoose queries from node interface in terminal:
+    - enter 'node' in terminal to open node CLI
+    - kill server
+    - Copy code from server/index.js from top of file through mongo connection, and paste into the Node CLI
+    - Now, you can write queries and test them out!
