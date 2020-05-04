@@ -406,3 +406,16 @@ This repository tracks my progress and lessons learned on the Udemy course Node 
     - kill server
     - Copy code from server/index.js from top of file through mongo connection, and paste into the Node CLI
     - Now, you can write queries and test them out!
+
+### **Section 13: The Home Stretch!**
+
+**Completed:** 05/03/2020
+
+**Lessons Learned / Notes:**
+
+- Querying Mongo for some, but not all, data that matches query
+  - We only want some data from user's surveys, not everything (I.e., recipient list could be lengthy, but we aren't rendering that to the page)
+  - [Mongoose official docs](https://mongoosejs.com/)
+  - [Mongoose API docs](https://mongoosejs.com/docs/api.html) - large doc, contains everything, good if you know what you are looking for.
+  - [Query projection / selector](https://mongoosejs.com/docs/api.html#query_Query-select) - meaning, here is a list of fields that I want returned
+- We will make cards with Materialize CSS
