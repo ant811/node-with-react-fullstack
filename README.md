@@ -413,9 +413,10 @@ This repository tracks my progress and lessons learned on the Udemy course Node 
 
 **Lessons Learned / Notes:**
 
-- Querying Mongo for some, but not all, data that matches query
-  - We only want some data from user's surveys, not everything (I.e., recipient list could be lengthy, but we aren't rendering that to the page)
+- Querying Mongo for some, but not all, data that matches the query
+  - We only want some data from the user's surveys, not everything (I.e., recipient list could be lengthy, but we aren't rendering that to the page)
   - [Mongoose official docs](https://mongoosejs.com/)
   - [Mongoose API docs](https://mongoosejs.com/docs/api.html) - large doc, contains everything, good if you know what you are looking for.
-  - [Query projection / selector](https://mongoosejs.com/docs/api.html#query_Query-select) - meaning, here is a list of fields that I want returned
+  - [Query projection/selector](https://mongoosejs.com/docs/api.html#query_Query-select) - Product list of fields that I want, or do not want, to be returned
 - We will make cards with Materialize CSS
+- Don't forget to update webhook permissions in Sendgrid to work with Production
